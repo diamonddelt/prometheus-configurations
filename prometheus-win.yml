@@ -1,0 +1,26 @@
+# Windows 7 General Purpose Prometheus config
+
+global:
+  scrape_interval: 15s
+  evaluation_interval: 15s
+
+rule_files:
+  # - "first.rules"
+  # - "second.rules"
+
+scrape_configs:
+  # prometheus scraping data about itself
+  - job_name: prometheus
+
+    static_configs:
+      - targets: ["localhost:9090"]
+
+  - job_name: win_sys_metrics
+
+    # override global default scrape intervals
+    scrape_interval: 5s
+
+    # use wmi_exporter to export windows metrics
+    # https://github.com/martinlindhe/wmi_exporter
+    static_configs:
+      - targets: [localhost:9182]
